@@ -90,11 +90,10 @@
 /*!************************************!*\
   !*** ./src/dom_node_collection.js ***!
   \************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nclass DOMNodeCollection {\n  constructor(array) {\n    this.array = array;\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (DOMNodeCollection);\n\n//# sourceURL=webpack:///./src/dom_node_collection.js?");
+eval("function DOMNodeCollection(array) {\n  this.array = array;\n\n}\n\nDOMNodeCollection.prototype.empty = function () {\n  this.array.forEach(el => {\n    el.innerHTML = '';\n  });\n}\n\nDOMNodeCollection.prototype.html = function (str) {\n  if (str) {\n    this.array.forEach( el => {\n      el.innerHTML = str;\n    });\n  } else {\n    str = str || this.array[0].innerHTML;\n    return str;\n  }\n}\n\nDOMNodeCollection.prototype.append = function (arg) {\n  if (arg instanceof HTMLElement) {\n    this.array.forEach(el => {\n      // let temp = el.innerHTML;\n      // el.innerHTML = temp + arg\n      el.innerHTML += arg;\n    });\n  } else if (typeof arg === 'string') {\n    this.array.forEach(el => {\n      // let temp = el.innerHTML;\n      // el.innerHTML = temp + arg\n      el.innerHTML += arg;\n    });\n  }\n}\n\nDOMNodeCollection.prototype.attr = function (name, value) {\n  if (value) {\n    this.array.forEach(el => {\n      el.setAttribute(name, value);\n    });\n  } else {\n    return this.array[0].getAttribute(name)\n  }\n}\n\nDOMNodeCollection.prototype.addClass = function (value) {\n  this.attr('class', value);\n}\n\nDOMNodeCollection.prototype.removeClass = function (value) {\n  if (value) {\n    this.array.forEach(el => {\n      if (el.getAttribute('class') === value) {\n        el.classList.remove(value);\n      }\n    });\n  } else {\n    this.array.forEach(el => {\n      el.setAttribute('class', '');\n    });\n  }\n}\n\nDOMNodeCollection.prototype.children = function() {\n  let juliaChilds = [];\n  this.array.forEach( el => {\n    juliaChilds = juliaChilds.concat(Array.from(el.children));\n  });\n  return new DOMNodeCollection(juliaChilds);\n}\n\nmodule.exports = DOMNodeCollection;\n\n//# sourceURL=webpack:///./src/dom_node_collection.js?");
 
 /***/ }),
 
@@ -102,11 +101,10 @@ eval("__webpack_require__.r(__webpack_exports__);\nclass DOMNodeCollection {\n  
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _src_dom_node_collection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../src/dom_node_collection */ \"./src/dom_node_collection.js\");\n\n\nwindow.$l = $l;\n\nfunction $l(arg) {\n  // console.log(`cool cooL ${arg}`);\n  if (typeof arg === \"string\") {\n    if (arg[0] === \"<\") {\n\n    } else {\n      let domCollection = new _src_dom_node_collection__WEBPACK_IMPORTED_MODULE_0__[\"default\"](Array.from(document.querySelectorAll(arg)))\n      return domCollection;\n    }\n  }\n}\n\n$l.prototype.empty = function () {\n  \n}\n\n$l.prototype.remove = function () {\n\n}\n\n$l.prototype.attr = function () {\n\n}\n\n$l.prototype.addClass = function () {\n\n}\n\n$l.prototype.removeClass = function () {\n\n}\n\n$l.prototype.html = function () {\n\n}\n\n$l.prototype.find = function () {\n\n}\n\n$l.prototype.children = function () {\n\n}\n\n$l.prototype.parent = function () {\n\n}\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("const DOMNodeCollection = __webpack_require__(/*! ../src/dom_node_collection */ \"./src/dom_node_collection.js\");\n\nwindow.$l = $l;\n\nfunction $l(arg) {\n  // console.log(`cool cooL ${arg}`);\n  // debugger\n  let domCollection;\n  if (arg instanceof HTMLElement) {\n    domCollection = new DOMNodeCollection([arg]);\n  } else if (typeof arg === 'string') {\n    domCollection = new DOMNodeCollection(Array.from(document.querySelectorAll(arg)))\n  } else if (arg instanceof NodeList) {\n    domCollection = new DOMNodeCollection(Array.from(arg))\n  }\n  return domCollection;\n}\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
